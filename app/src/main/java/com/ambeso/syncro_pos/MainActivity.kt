@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.ambeso.syncro_pos.Adapters.ProductListAdapter
@@ -24,21 +25,28 @@ class MainActivity : AppCompatActivity() {
     var order = ""
     var limit = ""
     var sort = ""
+    var sqlQuery = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setupPermissions()
+
+
+        supportActionBar?.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME or ActionBar.DISPLAY_SHOW_TITLE or ActionBar.DISPLAY_USE_LOGO)
+        supportActionBar?.setIcon(R.mipmap.ic_mksrobotics)
+
         orderSpin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 order = getResources().getStringArray(R.array.order_spinner_sql)[position].toString()
 
-                Toast.makeText(this@MainActivity, order, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivity, order, Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Code to perform some action when nothing is selected
+
             }
         }
 
@@ -46,11 +54,12 @@ class MainActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 sort = getResources().getStringArray(R.array.sort_spinner_sql)[position].toString()
 
-                Toast.makeText(this@MainActivity, sort, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivity, sort, Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Code to perform some action when nothing is selected
+
             }
         }
 
@@ -58,11 +67,12 @@ class MainActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 limit = getResources().getStringArray(R.array.limit_spinner_sql)[position].toString()
 
-                Toast.makeText(this@MainActivity, limit, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivity, limit, Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Code to perform some action when nothing is selected
+
             }
         }
 
@@ -75,8 +85,7 @@ class MainActivity : AppCompatActivity() {
 
     fun viewList(view: View){
 
-//        val dbHandler = DBHandler().getAllProducts()
-        var sqlQuery = "$sql $order $sort $limit"
+        sqlQuery = "$sql $order $sort $limit"
         Log.e("Query", sqlQuery)
         val produk : List<Product> = DBHandler().getProducts(sqlQuery)
 
