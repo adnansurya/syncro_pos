@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">syncro_pos</string>
+    <string name="app_name">MKSROBOTICS</string>
 
     <string-array name="sort_spinner_text">
         <item>Kecil ke Besar</item>

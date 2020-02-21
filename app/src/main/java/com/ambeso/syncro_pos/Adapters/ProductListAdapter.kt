@@ -19,7 +19,7 @@ class ProductListAdapter(private val context: Activity, private val id: Array<In
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
         val rowView = inflater.inflate(R.layout.product_list_single, null, true)
-        
+
 
         rowView.namaTxt.text = "${nama[position]}"
         rowView.modalTxt.text = "Modal : Rp. ${StringUtil().money(modal[position])},-"
