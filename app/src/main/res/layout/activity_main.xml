@@ -7,21 +7,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-
-    <Button
-        android:id="@+id/loadBtn"
-        android:text="Load"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="16dp"
-        android:onClick="viewList"/>
-
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/showTxt"/>
+        android:padding="8dp">
+        <TextView
+            android:id="@+id/urutTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_alignParentTop="true"
+            android:text="Urutkan Berdasarkan :"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dari"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/urutTxt"
+            android:layout_alignBaseline="@id/orderSpin"/>
+        <Spinner
+            android:id="@+id/orderSpin"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/urutTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:entries="@array/order_spinner_text"/>
+
+        <Spinner
+            android:id="@+id/sortSpin"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/urutTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:entries="@array/sort_spinner_text"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/sortSpin"
+            android:id="@+id/filterTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:text="Filter :"/>
+
+        <Spinner
+            android:id="@+id/limitSpin"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/filterTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:entries="@array/limit_spinner_text"/>
+
+        <Button
+            android:layout_below="@+id/filterTxt"
+            android:id="@+id/loadBtn"
+            android:text="Load Database"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@id/limitSpin"
+            android:layout_marginRight="16dp"
+            android:onClick="viewList"/>
+    </RelativeLayout>
+
+
+
 
     <ListView
         android:id="@+id/listView"

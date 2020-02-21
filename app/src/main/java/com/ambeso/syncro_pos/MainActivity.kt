@@ -6,54 +6,46 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
-import android.os.Environment
 import android.util.Log
-import android.view.Menu
 import android.view.View
+import android.widget.AdapterView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.ambeso.syncro_pos.Adapters.ProductListAdapter
 import com.ambeso.syncro_pos.Models.Product
-import com.ambeso.syncro_pos.Models.Users
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
 
 
-
+    var sql = "SELECT * FROM table_product"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setupPermissions()
+        orderSpin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                Toast.makeText(this@MainActivity, getResources().getStringArray(R.array.order_spinner_sql)[position].toString(), Toast.LENGTH_SHORT).show()
+            }
 
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Code to perform some action when nothing is selected
+            }
+        }
 
-
-
-
-
-//        loadBtn.setOnClickListener{
-//            Toast.makeText(this, "hello", Toast.LENGTH_LONG).show()
-//        }
-//
-//        loadBtn.setOnClickListener(View.OnClickListener {
-//            viewList(listView)
-//        })
     }
 
+
+
+
     fun viewList(view: View){
-     
+
 //        val dbHandler = DBHandler().getAllProducts()
-        val produk : List<Product> = DBHandler().getAllProducts()
+        val produk : List<Product> = DBHandler().getProducts(sql)
 
         val id_produk = Array<Int>(produk.size){0}
         val nama_produk = Array<String>(produk.size){"null"}

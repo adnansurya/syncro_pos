@@ -1,3 +1,50 @@
 <resources>
     <string name="app_name">syncro_pos</string>
+
+    <string-array name="sort_spinner_text">
+        <item>Kecil ke Besar</item>
+        <item>Besar ke Kecil</item>
+    </string-array>
+
+    <string-array name="sort_spinnner_sql">
+        <item>ASC</item>
+        <item>DESC</item>
+    </string-array>
+
+    <string-array name="order_spinner_text">
+        <item>ID</item>
+        <item>Nama</item>
+        <item>Kategori</item>
+        <item>Harga Jual</item>
+        <item>Harga Modal</item>
+        <item>Stok</item>
+    </string-array>
+
+    <string-array name="order_spinner_sql">
+        <item>product_id</item>
+        <item>product_name</item>
+        <item>product_caregory_name</item>
+        <item>product_sale_price</item>
+        <item>product_base_price</item>
+        <item>product_stock_amount</item>
+    </string-array>
+
+
+    <string-array name="limit_spinner_text">
+        <item>Semua Produk</item>
+        <item>100 Produk</item>
+        <item>50 Produk</item>
+        <item>25 Produk</item>
+        <item>10 Produk</item>
+        <item>5 Produk</item>
+    </string-array>
+
+    <string-array name="limit_spinner_sql">
+        <item></item>
+        <item>LIMIT 100</item>
+        <item>LIMIT 50</item>
+        <item>LIMIT 25</item>
+        <item>LIMIT 10</item>
+        <item>LIMIT 5</item>
+    </string-array>
 </resources>

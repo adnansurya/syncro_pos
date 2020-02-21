@@ -9,10 +9,9 @@ import kotlin.math.roundToInt
 class DBHandler {
 
 
-    fun getAllProducts() : List<Product>{
+    fun getProducts(sqlString: String) : List<Product>{
 
         val productList:ArrayList<Product> = ArrayList<Product>()
-        val sqlString =  "SELECT * FROM table_product"
         val db = DBConn("product.db").getDatabase
 
         var cursor: Cursor? = null
