@@ -21,6 +21,9 @@ class MainActivity : AppCompatActivity() {
 
 
     var sql = "SELECT * FROM table_product"
+    var order = ""
+    var limit = ""
+    var sort = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,13 +32,41 @@ class MainActivity : AppCompatActivity() {
         setupPermissions()
         orderSpin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                Toast.makeText(this@MainActivity, getResources().getStringArray(R.array.order_spinner_sql)[position].toString(), Toast.LENGTH_SHORT).show()
+                order = getResources().getStringArray(R.array.order_spinner_sql)[position].toString()
+
+                Toast.makeText(this@MainActivity, order, Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Code to perform some action when nothing is selected
             }
         }
+
+        sortSpin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                sort = getResources().getStringArray(R.array.sort_spinner_sql)[position].toString()
+
+                Toast.makeText(this@MainActivity, sort, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Code to perform some action when nothing is selected
+            }
+        }
+
+        limitSpin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                limit = getResources().getStringArray(R.array.limit_spinner_sql)[position].toString()
+
+                Toast.makeText(this@MainActivity, limit, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Code to perform some action when nothing is selected
+            }
+        }
+
+
 
     }
 
@@ -45,7 +76,9 @@ class MainActivity : AppCompatActivity() {
     fun viewList(view: View){
 
 //        val dbHandler = DBHandler().getAllProducts()
-        val produk : List<Product> = DBHandler().getProducts(sql)
+        var sqlQuery = "$sql $order $sort $limit"
+        Log.e("Query", sqlQuery)
+        val produk : List<Product> = DBHandler().getProducts(sqlQuery)
 
         val id_produk = Array<Int>(produk.size){0}
         val nama_produk = Array<String>(produk.size){"null"}

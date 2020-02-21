@@ -6,7 +6,7 @@
         <item>Besar ke Kecil</item>
     </string-array>
 
-    <string-array name="sort_spinnner_sql">
+    <string-array name="sort_spinner_sql">
         <item>ASC</item>
         <item>DESC</item>
     </string-array>
@@ -21,12 +21,12 @@
     </string-array>
 
     <string-array name="order_spinner_sql">
-        <item>product_id</item>
-        <item>product_name</item>
-        <item>product_caregory_name</item>
-        <item>product_sale_price</item>
-        <item>product_base_price</item>
-        <item>product_stock_amount</item>
+        <item>ORDER BY product_id</item>
+        <item>ORDER BY product_name</item>
+        <item>ORDER BY product_caregory_name</item>
+        <item>ORDER BY product_sale_price</item>
+        <item>ORDER BY product_base_price</item>
+        <item>ORDER BY product_stock_amount</item>
     </string-array>
 
 
