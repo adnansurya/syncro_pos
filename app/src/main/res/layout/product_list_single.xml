@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+    <TextView
+        android:id="@+id/namaTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nama Produk"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+
+    <TextView
+        android:layout_below="@id/namaTxt"
+        android:id="@+id/modalTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Modal : Rp.99999999"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+    <TextView
+        android:layout_below="@id/namaTxt"
+        android:id="@+id/stokTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stok : 10"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+
+    <TextView
+        android:layout_below="@+id/modalTxt"
+        android:id="@+id/jualTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jual : Rp.99999999"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
+    <TextView
+        android:layout_below="@+id/stokTxt"
+        android:id="@+id/satuanTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pcs"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+
+
+</RelativeLayout>

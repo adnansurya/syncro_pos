@@ -18,6 +18,8 @@ import android.view.Menu
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.ambeso.syncro_pos.Adapters.ProductListAdapter
+import com.ambeso.syncro_pos.Models.Product
 import com.ambeso.syncro_pos.Models.Users
 import java.io.File
 import java.io.FileInputStream
@@ -25,7 +27,7 @@ import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
 
-    var dbHandler : DatabaseHandler? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,32 +38,44 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        dbHandler = DatabaseHandler(this)
-        val path = this.getExternalFilesDir(null).toString()
+
+
+
+//        loadBtn.setOnClickListener{
+//            Toast.makeText(this, "hello", Toast.LENGTH_LONG).show()
+//        }
 //
-//        Log.e("PATH",path )
+//        loadBtn.setOnClickListener(View.OnClickListener {
+//            viewList(listView)
+//        })
+    }
 
-        Toast.makeText(this, path, Toast.LENGTH_LONG).show()
-        val letDirectory = File(path, "LET")
-        letDirectory.mkdirs()
-//        val file = File(letDirectory, "Records.txt")
-        val file = File(letDirectory, "Records.txt")
-        file.appendText("record goes here")
+    fun viewList(view: View){
+     
+//        val dbHandler = DBHandler().getAllProducts()
+        val produk : List<Product> = DBHandler().getAllProducts()
+
+        val id_produk = Array<Int>(produk.size){0}
+        val nama_produk = Array<String>(produk.size){"null"}
+        val modal_produk = Array<String>(produk.size){"null"}
+        val jual_produk = Array<String>(produk.size){"null"}
+        val stok_produk = Array<String>(produk.size){"null"}
+        val satuan_produk = Array<String>(produk.size){"null"}
 
 
-        val inputAsString = FileInputStream(file).bufferedReader().use { it.readText() }
-        Log.e("BACA", Environment.getExternalStorageDirectory().toString()   )
-
-
-
-        loadBtn.setOnClickListener{
-            Toast.makeText(this, "hello", Toast.LENGTH_LONG).show()
+        var index = 0
+        for(i in produk){
+            id_produk[index] = i.id
+            nama_produk[index] = i.productName.toString()
+            modal_produk[index] = i.productBasePrice.toString()
+            jual_produk[index] = i.productSellPrice.toString()
+            stok_produk[index] = i.productStockAmount.toString()
+            satuan_produk[index] = i.productUnit.toString()
+            index++
         }
-
-        loadBtn.setOnClickListener(View.OnClickListener {
-            var user = dbHandler!!.getAllUsers()
-            showTxt.setText(user)
-        })
+        //creating custom ArrayAdapter
+        val listAdapter = ProductListAdapter(this,id_produk,nama_produk,modal_produk,jual_produk,stok_produk,satuan_produk)
+        listView.adapter = listAdapter
     }
 
 
