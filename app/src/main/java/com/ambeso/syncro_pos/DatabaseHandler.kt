@@ -19,7 +19,7 @@ import java.io.File.separator
 
 class DatabaseHandler(context: Context): SQLiteOpenHelper(context, Environment.getExternalStorageState().toString() +  DB_NAME, null, DB_VERSION){
 
-
+    private var mycontext :Context = context
     
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_TABLE = "CREATE TABLE $TABLE_NAME "+
@@ -47,9 +47,12 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context, Environment.g
 //        val db = readableDatabase
         val filePath = DATABASE_FILE_PATH + File.separator + "KasirToko" + File.separator + "database" + File.separator + DB_NAME
         Log.e("PATH", filePath)
-        val db = SQLiteDatabase.openDatabase(filePath, null, SQLiteDatabase.OPEN_READWRITE )
+
+//        val db = SQLiteDatabase.openDatabase(filePath, null, SQLiteDatabase.OPEN_READWRITE )
+        val db = DBConn(mycontext, DB_NAME).getDatabase
         val selectALLQuery = "SELECT * FROM $TABLE_NAME"
-        val cursor = db.rawQuery(selectALLQuery, null)
+        val cursor = db?.rawQuery(selectALLQuery, null)
+
         if(cursor != null){
             if(cursor.moveToFirst()){
                 do{
@@ -62,8 +65,8 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context, Environment.g
                 }while (cursor.moveToNext())
             }
         }
-        cursor.close()
-        db.close()
+        cursor?.close()
+        db?.close()
         return allUser
     }
 
