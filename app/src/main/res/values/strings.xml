@@ -23,7 +23,7 @@
     <string-array name="order_spinner_sql">
         <item>ORDER BY product_id</item>
         <item>ORDER BY product_name</item>
-        <item>ORDER BY product_caregory_name</item>
+        <item>ORDER BY product_category_name</item>
         <item>ORDER BY product_sale_price</item>
         <item>ORDER BY product_base_price</item>
         <item>ORDER BY product_stock_amount</item>
