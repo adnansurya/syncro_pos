@@ -17,6 +17,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.ambeso.syncro_pos.Adapters.ProductListAdapter
 import com.ambeso.syncro_pos.Models.Product
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,11 +33,34 @@ class MainActivity : AppCompatActivity() {
     var sort = ""
     var sqlQuery = ""
 
+
+    private val WRITE_REQUEST_CODE = 201
+    private val READ_REQUEST_CODE = 202
+    private val PERMISSION_REQUEST_CODE = 200
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupPermissions()
+        if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+            requestPermission(WRITE_EXTERNAL_STORAGE, WRITE_REQUEST_CODE)
+            // Permission is not granted
+        }
+
+        if (ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+            requestPermission(READ_EXTERNAL_STORAGE, READ_REQUEST_CODE)
+            // Permission is not granted
+        }
+
+
+
+
+
+
+
+
 
 
         supportActionBar?.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME or ActionBar.DISPLAY_SHOW_TITLE or ActionBar.DISPLAY_USE_LOGO)
@@ -83,11 +112,82 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    fun requestPermission(category : String, reqCode: Int){
+        if (ContextCompat.checkSelfPermission(this,
+                category)
+            != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    category)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(category),
+                    reqCode)
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+        }
+
+
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            READ_REQUEST_CODE -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                    Toast.makeText(this, "READ OK", Toast.LENGTH_LONG).show()
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return
+            }
+            WRITE_REQUEST_CODE -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                    Toast.makeText(this, "WRITE OK", Toast.LENGTH_LONG).show()
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return
+            }
+
+            // Add other 'when' lines to check for other
+            // permissions this app might request.
+            else -> {
+                // Ignore all other requests.
+            }
+        }
+    }
+
+
+
+
+
     fun viewList(view: View){
 
         sqlQuery = "$sql $order $sort $limit"
         Log.e("Query", sqlQuery)
-        val produk : List<Product> = DBHandler().getProducts(sqlQuery)
+        val produk : List<Product> = DBHandler(this).getProducts(sqlQuery)
 
         val id_produk = Array<Int>(produk.size){0}
         val nama_produk = Array<String>(produk.size){"null"}
@@ -113,65 +213,19 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private val TAG = "PermissionState"
-    private val RECORD_REQUEST_CODE = 101
 
-    private fun setupPermissions() {
-        val ReadPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-        } else {
-            TODO("VERSION.SDK_INT < JELLY_BEAN")
-        }
 
-        if (ReadPermission != PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "Permission to record denied")
-            makeReadRequest()
-        }
 
-        val WritePermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        } else {
-            TODO("VERSION.SDK_INT < JELLY_BEAN")
-        }
 
-        if (WritePermission != PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "Permission to record denied")
-            makeWriteRequest()
-        }
-    }
 
-    private fun makeReadRequest() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                RECORD_REQUEST_CODE)
-        }
-    }
 
-    private fun makeWriteRequest() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                RECORD_REQUEST_CODE)
-        }
-    }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                             permissions: Array<String>, grantResults: IntArray) {
-        when (requestCode) {
-            RECORD_REQUEST_CODE -> {
 
-                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
 
-                    Log.i(TAG, "Permission has been denied by user")
-                } else {
-                    Log.i(TAG, "Permission has been granted by user")
-                }
-            }
-        }
-    }
+
+
+
+
 
 
 

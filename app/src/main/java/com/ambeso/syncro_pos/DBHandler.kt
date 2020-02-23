@@ -1,18 +1,21 @@
 package com.ambeso.syncro_pos
 
+import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import android.util.Log
 import com.ambeso.syncro_pos.Models.Product
 import kotlin.math.roundToInt
 
-class DBHandler {
+class DBHandler(context: Context){
+
+    var mycontext = context
 
 
     fun getProducts(sqlString: String) : List<Product>{
 
         val productList:ArrayList<Product> = ArrayList<Product>()
-        val db = DBConn("product.db").getDatabase
+        val db = DBConn("product.db", mycontext).getDatabase
 
         var cursor: Cursor? = null
 

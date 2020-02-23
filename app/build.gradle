@@ -9,8 +9,8 @@ android {
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.ambeso.syncro_pos"
-        minSdkVersion 15
-        targetSdkVersion 29
+        minSdkVersion 16
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
