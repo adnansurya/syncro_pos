@@ -2,12 +2,10 @@
 
 package com.ambeso.syncro_pos
 
-import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
-import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -20,8 +18,11 @@ import com.ambeso.syncro_pos.Models.Product
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 
-import android.content.DialogInterface
-import androidx.appcompat.app.AlertDialog
+import android.view.Menu
+import android.view.MenuItem
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +37,9 @@ class MainActivity : AppCompatActivity() {
 
     private val WRITE_REQUEST_CODE = 201
     private val READ_REQUEST_CODE = 202
-    private val PERMISSION_REQUEST_CODE = 200
+    private var readPermission= false
+    private var writePermission= false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,22 +49,17 @@ class MainActivity : AppCompatActivity() {
             != PackageManager.PERMISSION_GRANTED) {
             requestPermission(WRITE_EXTERNAL_STORAGE, WRITE_REQUEST_CODE)
             // Permission is not granted
+        }else{
+            writePermission = true
         }
 
         if (ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED) {
             requestPermission(READ_EXTERNAL_STORAGE, READ_REQUEST_CODE)
             // Permission is not granted
+        }else{
+            readPermission = true
         }
-
-
-
-
-
-
-
-
-
 
         supportActionBar?.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME or ActionBar.DISPLAY_SHOW_TITLE or ActionBar.DISPLAY_USE_LOGO)
         supportActionBar?.setIcon(R.mipmap.ic_mksrobotics)
@@ -149,9 +147,10 @@ class MainActivity : AppCompatActivity() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-
+                    readPermission = true
                     Toast.makeText(this, "READ OK", Toast.LENGTH_LONG).show()
                 } else {
+                    readPermission = false
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
@@ -162,11 +161,12 @@ class MainActivity : AppCompatActivity() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-
+                    writePermission = true
                     Toast.makeText(this, "WRITE OK", Toast.LENGTH_LONG).show()
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
+                    writePermission = false
                 }
                 return
             }
@@ -180,39 +180,64 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
-
     fun viewList(view: View){
 
         sqlQuery = "$sql $order $sort $limit"
         Log.e("Query", sqlQuery)
-        val produk : List<Product> = DBHandler(this).getProducts(sqlQuery)
 
-        val id_produk = Array<Int>(produk.size){0}
-        val nama_produk = Array<String>(produk.size){"null"}
-        val modal_produk = Array<String>(produk.size){"null"}
-        val jual_produk = Array<String>(produk.size){"null"}
-        val stok_produk = Array<String>(produk.size){"null"}
-        val satuan_produk = Array<String>(produk.size){"null"}
+        if(readPermission && writePermission){
+            var produk : List<Product> = DBHandler(this).getProducts(sqlQuery)
+
+//            val id_produk = Array<Int>(produk.size){0}
+            val nama_produk = Array<String>(produk.size){"null"}
+            val modal_produk = Array<String>(produk.size){"null"}
+            val jual_produk = Array<String>(produk.size){"null"}
+            val stok_produk = Array<String>(produk.size){"null"}
+            val satuan_produk = Array<String>(produk.size){"null"}
 
 
-        var index = 0
-        for(i in produk){
-            id_produk[index] = i.id
-            nama_produk[index] = i.productName.toString()
-            modal_produk[index] = i.productBasePrice.toString()
-            jual_produk[index] = i.productSellPrice.toString()
-            stok_produk[index] = i.productStockAmount.toString()
-            satuan_produk[index] = i.productUnit.toString()
-            index++
+            var index = 0
+            for(i in produk){
+//                id_produk[index] = i.id
+                nama_produk[index] = i.name.toString()
+                modal_produk[index] = i.basePrice.toString()
+                jual_produk[index] = i.sellPrice.toString()
+                stok_produk[index] = i.stockAmount.toString()
+                satuan_produk[index] = i.unit.toString()
+                index++
+            }
+            //creating custom ArrayAdapter
+            val listAdapter = ProductListAdapter(this,nama_produk,modal_produk,jual_produk,stok_produk,satuan_produk)
+            listView.adapter = listAdapter
+        }else{
+            Toast.makeText(this, "Permission NOT OK. Check Settings of this app", Toast.LENGTH_LONG).show()
         }
-        //creating custom ArrayAdapter
-        val listAdapter = ProductListAdapter(this,id_produk,nama_produk,modal_produk,jual_produk,stok_produk,satuan_produk)
-        listView.adapter = listAdapter
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) =  when (item.itemId){
+        R.id.action_sync -> {
+            syncFirebase()
+            true
+        }else -> {
+            super.onOptionsItemSelected(item)
+        }
+
     }
 
 
+    fun syncFirebase(){
+        var produk : List<Product> = DBHandler(this).getProducts("SELECT * FROM table_product") //
+        var db : DatabaseReference = FirebaseDatabase.getInstance().getReference("product_data")
+
+        db.setValue(produk)
+    }
 
 
 

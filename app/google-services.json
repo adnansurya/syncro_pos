@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "236823766418",
+    "firebase_url": "https://mksrobotics.firebaseio.com",
+    "project_id": "mksrobotics",
+    "storage_bucket": "mksrobotics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236823766418:android:9f7987081591972adecd4b",
+        "android_client_info": {
+          "package_name": "com.ambeso.syncro_pos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236823766418-cifi8givdsv3eoqgtf2rhi0m11tjhdv8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ambeso.syncro_pos",
+            "certificate_hash": "7dc46b0e06b0f67646cccaec3f905c853d6a3409"
+          }
+        },
+        {
+          "client_id": "236823766418-t7p5bpv47sladb21id0o5qlvetsqn3jf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEqjbF8xtRR5XuNApsW1MDM_P4WGqRGpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236823766418-t7p5bpv47sladb21id0o5qlvetsqn3jf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -11,7 +11,7 @@ import com.ambeso.syncro_pos.Utility.StringUtil
 
 import kotlinx.android.synthetic.main.product_list_single.view.*
 
-class ProductListAdapter(private val context: Activity, private val id: Array<Int>, private val nama: Array<String>, private val modal: Array<String>
+class ProductListAdapter(private val context: Activity, private val nama: Array<String>, private val modal: Array<String>
                     , private val jual: Array<String>, private val stok: Array<String>, private val satuan: Array<String>)
     : ArrayAdapter<String>(context, R.layout.product_list_single, nama) {
 

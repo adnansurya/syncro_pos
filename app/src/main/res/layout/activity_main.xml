@@ -72,7 +72,6 @@
             android:entries="@array/sort_spinner_text"/>
 
         <TextView
-            android:layout_marginTop="10dp"
             android:layout_below="@+id/sortSpin"
             android:id="@+id/filterTxt"
             android:layout_width="match_parent"

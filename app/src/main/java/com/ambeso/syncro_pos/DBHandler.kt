@@ -52,7 +52,7 @@ class DBHandler(context: Context){
                     sellPrice = cursor.getDouble(cursor.getColumnIndex("product_sale_price")).roundToInt()
                     stockAmount = cursor.getDouble(cursor.getColumnIndex("product_stock_amount")).roundToInt()
 
-                    val product = Product(id,type,category,uxid,code,name,unit,basePrice,sellPrice,stockAmount)
+                    val product = Product(type,category,uxid,code,name,unit,basePrice,sellPrice,stockAmount)
                     productList.add(product)
                 } while (cursor.moveToNext())
             }
