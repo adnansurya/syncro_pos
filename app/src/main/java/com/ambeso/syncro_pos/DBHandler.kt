@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import android.util.Log
+import com.ambeso.syncro_pos.Models.Category
 import com.ambeso.syncro_pos.Models.Product
 import kotlin.math.roundToInt
 
@@ -60,5 +61,40 @@ class DBHandler(context: Context){
         cursor?.close()
         db?.close()
         return productList
+    }
+
+    fun getCategories(sqlString: String) : List<Category>{
+
+        val categoryList:ArrayList<Category> = ArrayList<Category>()
+        val db = DBConn("category.db", mycontext).getDatabase
+
+        var cursor: Cursor? = null
+
+        try{
+            cursor = db?.rawQuery(sqlString, null)
+        }catch (e: SQLiteException) {
+            Log.e("DBHandler", e.toString())
+            db?.execSQL(sqlString)
+            return ArrayList()
+        }
+
+
+        var uxid: String
+        var name: String
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+
+                    uxid = cursor.getString(cursor.getColumnIndex("category_uxid"))
+                    name = cursor.getString(cursor.getColumnIndex("category_name"))
+
+                    val category = Category(uxid,name)
+                    categoryList.add(category)
+                } while (cursor.moveToNext())
+            }
+        }
+        cursor?.close()
+        db?.close()
+        return categoryList
     }
 }

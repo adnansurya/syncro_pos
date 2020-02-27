@@ -20,6 +20,7 @@ import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 
 import android.view.Menu
 import android.view.MenuItem
+import com.ambeso.syncro_pos.Models.Category
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import org.json.JSONObject
@@ -234,9 +235,11 @@ class MainActivity : AppCompatActivity() {
 
     fun syncFirebase(){
         var produk : List<Product> = DBHandler(this).getProducts("SELECT * FROM table_product") //
-        var db : DatabaseReference = FirebaseDatabase.getInstance().getReference("product_data")
+        var kategori : List<Category> =DBHandler(this).getCategories("SELECT * FROM table_category")
+        var db: FirebaseDatabase = FirebaseDatabase.getInstance()
 
-        db.setValue(produk)
+        db.getReference("product_data").setValue(produk)
+        db.getReference("category").setValue(kategori)
     }
 
 
