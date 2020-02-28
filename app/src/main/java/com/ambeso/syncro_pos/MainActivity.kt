@@ -236,7 +236,7 @@ class MainActivity : AppCompatActivity() {
 
     fun syncFirebase(){
         var produk : List<Product> = DBHandler(this).getProducts("SELECT * FROM table_product") //
-        var kategori : List<Category> =DBHandler(this).getCategories("SELECT * FROM table_category")
+        var kategori : List<Category> =DBHandler(this).getCategories("SELECT * FROM table_category ORDER BY category_name ASC")
 
         var db: FirebaseDatabase = FirebaseDatabase.getInstance()
 
