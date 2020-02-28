@@ -23,9 +23,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stok : 10"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@+id/satuanTxt"
+        android:layout_toStartOf="@+id/satuanTxt"
         android:textStyle="bold"
+        android:layout_marginRight="4dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
 
     <TextView
@@ -37,15 +38,27 @@
         android:textStyle="bold"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
     <TextView
-        android:layout_below="@+id/stokTxt"
+        android:layout_below="@+id/namaTxt"
         android:id="@+id/satuanTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="pcs"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/stokTxt"
         android:textStyle="bold"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+
+    <TextView
+        android:layout_below="@+id/stokTxt"
+        android:text="kategori"
+        android:id="@+id/kategoriTxt"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        />
 
 
 </RelativeLayout>

@@ -12,7 +12,8 @@ import com.ambeso.syncro_pos.Utility.StringUtil
 import kotlinx.android.synthetic.main.product_list_single.view.*
 
 class ProductListAdapter(private val context: Activity, private val nama: Array<String>, private val modal: Array<String>
-                    , private val jual: Array<String>, private val stok: Array<String>, private val satuan: Array<String>)
+                    , private val jual: Array<String>, private val stok: Array<String>, private val satuan: Array<String>
+                     , private  val kategori: Array<String>)
     : ArrayAdapter<String>(context, R.layout.product_list_single, nama) {
 
     @SuppressLint("ViewHolder")
@@ -20,7 +21,7 @@ class ProductListAdapter(private val context: Activity, private val nama: Array<
         val inflater = context.layoutInflater
         val rowView = inflater.inflate(R.layout.product_list_single, null, true)
 
-
+        rowView.kategoriTxt.text = "${kategori[position]}"
         rowView.namaTxt.text = "${nama[position]}"
         rowView.modalTxt.text = "Modal : Rp. ${StringUtil().money(modal[position])},-"
         rowView.jualTxt.text = "Jual : Rp. ${StringUtil().money(jual[position])},-"

@@ -196,6 +196,7 @@ class MainActivity : AppCompatActivity() {
             val jual_produk = Array<String>(produk.size){"null"}
             val stok_produk = Array<String>(produk.size){"null"}
             val satuan_produk = Array<String>(produk.size){"null"}
+            val kategori_produk = Array<String>(produk.size){"null"}
 
 
             var index = 0
@@ -206,10 +207,11 @@ class MainActivity : AppCompatActivity() {
                 jual_produk[index] = i.sellPrice.toString()
                 stok_produk[index] = i.stockAmount.toString()
                 satuan_produk[index] = i.unit.toString()
+                kategori_produk[index] = i.category.toString()
                 index++
             }
             //creating custom ArrayAdapter
-            val listAdapter = ProductListAdapter(this,nama_produk,modal_produk,jual_produk,stok_produk,satuan_produk)
+            val listAdapter = ProductListAdapter(this,nama_produk,modal_produk,jual_produk,stok_produk,satuan_produk, kategori_produk)
             listView.adapter = listAdapter
         }else{
             Toast.makeText(this, "Permission NOT OK. Check Settings of this app", Toast.LENGTH_LONG).show()
