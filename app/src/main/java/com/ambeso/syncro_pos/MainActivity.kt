@@ -245,7 +245,7 @@ class MainActivity : AppCompatActivity() {
         db.getReference("properties").child("product_total").setValue(produk.size)
 
 
-        db.getReference("properties").child("last_sync").setValue(StringUtil().currentTime())
+        db.getReference("properties").child("last_sync").setValue(StringUtil().currentTime() + " WITA")
 
     }
 

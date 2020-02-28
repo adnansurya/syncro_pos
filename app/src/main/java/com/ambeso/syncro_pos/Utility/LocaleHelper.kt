@@ -18,6 +18,7 @@ class LocaleHelper {
 
 
 
+    @Suppress("DEPRECATION")
     fun setLocale(localeSpec: String){
         val locale: Locale
         if (localeSpec == "system") {

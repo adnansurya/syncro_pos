@@ -19,7 +19,8 @@ class StringUtil {
         val currentTime = Calendar.getInstance().getTime()
         LocaleHelper().setLocale("in");
         try {
-            val newFormat = SimpleDateFormat("EEEE, dd MMMM yyyy h:mm a", Locale.getDefault())
+//            val newFormat = SimpleDateFormat("EEEE, dd MMMM yyyy h:mm a", Locale.getDefault())
+            val newFormat = SimpleDateFormat("dd MMMM yyyy H:mm", Locale.getDefault())
             dateFormatted = newFormat.format(currentTime)
         } catch (e: ParseException) {
             e.printStackTrace()
