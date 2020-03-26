@@ -2,8 +2,8 @@
 
 package com.ambeso.syncro_pos
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.Manifest.permission.*
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -125,6 +125,19 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         currentUser = auth.currentUser
+        if(currentUser == null){
+            var loginIntent = Intent(this, Login::class.java)
+            startActivity(loginIntent)
+        }else{
+            Toast.makeText(this, "Selamat Datang," + currentUser?.email, Toast.LENGTH_LONG).show()
+        }
+
+    }
+
+    fun logOut(){
+        auth.signOut()
+        var loginIntent = Intent(this, Login::class.java)
+        startActivity(loginIntent)
 
     }
 
@@ -245,7 +258,12 @@ class MainActivity : AppCompatActivity() {
         R.id.action_sync -> {
             syncFirebase()
             true
-        }else -> {
+        }
+        R.id.action_logout -> {
+            logOut()
+            true
+        }
+        else -> {
             super.onOptionsItemSelected(item)
         }
 
