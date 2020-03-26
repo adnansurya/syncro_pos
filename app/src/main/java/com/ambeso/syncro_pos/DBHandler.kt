@@ -38,6 +38,7 @@ class DBHandler(context: Context){
         var basePrice: Int
         var sellPrice: Int
         var stockAmount: Int
+        var timeStamp : Int
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -52,8 +53,9 @@ class DBHandler(context: Context){
                     basePrice = cursor.getDouble(cursor.getColumnIndex("product_base_price")).roundToInt()
                     sellPrice = cursor.getDouble(cursor.getColumnIndex("product_sale_price")).roundToInt()
                     stockAmount = cursor.getDouble(cursor.getColumnIndex("product_stock_amount")).roundToInt()
+                    timeStamp = cursor.getInt(cursor.getColumnIndex("product_timestamp"))
 
-                    val product = Product(type,category,uxid,code,name,unit,basePrice,sellPrice,stockAmount)
+                    val product = Product(type,category,uxid,code,name,unit,basePrice,sellPrice,stockAmount, timeStamp)
                     productList.add(product)
                 } while (cursor.moveToNext())
             }

@@ -2,29 +2,29 @@
 
 package com.ambeso.syncro_pos
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_main.*
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.ambeso.syncro_pos.Adapters.ProductListAdapter
-import com.ambeso.syncro_pos.Models.Product
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-
-import android.view.Menu
-import android.view.MenuItem
 import com.ambeso.syncro_pos.Models.Category
+import com.ambeso.syncro_pos.Models.Product
 import com.ambeso.syncro_pos.Utility.StringUtil
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import java.text.DateFormat
-import java.util.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -42,10 +42,20 @@ class MainActivity : AppCompatActivity() {
     private var readPermission= false
     private var writePermission= false
 
+    private lateinit var auth: FirebaseAuth
+
+    var currentUser : FirebaseUser? = null
+
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        auth = FirebaseAuth.getInstance()
+
 
         if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED) {
@@ -62,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         }else{
             readPermission = true
         }
+
 
         supportActionBar?.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME or ActionBar.DISPLAY_SHOW_TITLE or ActionBar.DISPLAY_USE_LOGO)
         supportActionBar?.setIcon(R.mipmap.ic_mksrobotics)
@@ -110,7 +121,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    public override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        currentUser = auth.currentUser
 
+    }
 
     fun requestPermission(category : String, reqCode: Int){
         if (ContextCompat.checkSelfPermission(this,
@@ -237,17 +253,43 @@ class MainActivity : AppCompatActivity() {
 
 
     fun syncFirebase(){
-        var produk : List<Product> = DBHandler(this).getProducts("SELECT * FROM table_product") //
-        var kategori : List<Category> =DBHandler(this).getCategories("SELECT * FROM table_category ORDER BY category_name ASC")
-
-        var db: FirebaseDatabase = FirebaseDatabase.getInstance()
-
-        db.getReference("product_data").setValue(produk)
-        db.getReference("category").setValue(kategori)
-        db.getReference("properties").child("product_total").setValue(produk.size)
 
 
-        db.getReference("properties").child("last_sync").setValue(StringUtil().currentTime() + " WITA")
+
+        if(currentUser != null){
+            if(currentUser!!.email == "pc.keyboardist@gmail.com" || currentUser!!.email == "muh.adnansuryaazis@gmail.com"){
+                var produk : List<Product> = DBHandler(this).getProducts("SELECT * FROM table_product") //
+                var kategori : List<Category> =DBHandler(this).getCategories("SELECT * FROM table_category ORDER BY category_name ASC")
+
+                var db: FirebaseDatabase = FirebaseDatabase.getInstance()
+
+
+
+//                db.getReference("product_data").setValue(produk)
+
+                db.getReference("product_data").setValue(produk)
+                db.getReference("category").setValue(kategori)
+                db.getReference("properties").child("product_total").setValue(produk.size)
+
+
+                db.getReference("properties").child("last_sync").setValue(StringUtil().currentTime() + " WITA")
+
+                Toast.makeText(this, "Data berhasil diupdate!", Toast.LENGTH_LONG).show();
+
+
+            }else{
+                Toast.makeText(this, "Akun anda tidak bisa mengupdate data", Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Toast.makeText(this, "User tidak ditemukan", Toast.LENGTH_LONG).show();
+        }
+
+
+
+
+
+
+
 
     }
 

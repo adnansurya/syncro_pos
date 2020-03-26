@@ -10,6 +10,7 @@ class Product (
     var unit: String?,
     var basePrice: Int,
     var sellPrice: Int,
-    var stockAmount: Int
+    var stockAmount: Int,
+    var timeStamp: Int
 
 )
