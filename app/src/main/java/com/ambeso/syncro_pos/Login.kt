@@ -22,17 +22,28 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build()
+        var current = FirebaseAuth.getInstance().currentUser
+        if(current != null){
+            var mainAct = Intent(this, MainActivity::class.java)
+            startActivity(mainAct)
+
+        }else{
+
+            val providers = arrayListOf(
+                AuthUI.IdpConfig.EmailBuilder().build()
             )
 
+
 // Create and launch sign-in intent
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build(),
-            RC_SIGN_IN)
+            startActivityForResult(
+                AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(providers)
+                    .build(),
+                RC_SIGN_IN)
+        }
+
+
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
