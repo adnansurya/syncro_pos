@@ -6,6 +6,7 @@ import android.Manifest.permission.*
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -20,11 +21,13 @@ import com.ambeso.syncro_pos.Adapters.ProductListAdapter
 import com.ambeso.syncro_pos.Models.Category
 import com.ambeso.syncro_pos.Models.Product
 import com.ambeso.syncro_pos.Utility.StringUtil
+import com.ambeso.syncro_pos.Utility.UploadUtility
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -292,7 +295,8 @@ class MainActivity : AppCompatActivity() {
 
                 db.getReference("properties").child("last_sync").setValue(StringUtil().currentTime() + " WITA")
 
-                Toast.makeText(this, "Data berhasil diupdate!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Firebase berhasil diupdate!", Toast.LENGTH_LONG).show();
+                syncWeb()
 
 
             }else{
@@ -309,6 +313,16 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    fun syncWeb(){
+
+
+
+
+        UploadUtility(this).uploadFile("category.db", "category.db")
+        UploadUtility(this).uploadFile("transaction.db", "transaction.db")
+        UploadUtility(this).uploadFile("product.db", "product.db")
     }
 
 
