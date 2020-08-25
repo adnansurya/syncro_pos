@@ -321,8 +321,10 @@ class MainActivity : AppCompatActivity() {
 
 
         UploadUtility(this).uploadFile("category.db", "category.db")
-        UploadUtility(this).uploadFile("transaction.db", "transaction.db")
         UploadUtility(this).uploadFile("product.db", "product.db")
+        UploadUtility(this).uploadFile("transaction.db", "transaction.db")
+        UploadUtility(this).uploadFile("cart.db", "cart.db")
+        UploadUtility(this).uploadFile("tracking.db", "tracking.db")
     }
 
 
